@@ -181,6 +181,9 @@ function SelectedHTML(selected){
 		return html;
 	}
 	
+	this.focused = function(){
+		return document.activeElement;
+	}
 	this.parent = function(){
 		var parent = [];
 		for(var i = 0; i < collection.length; i++){
@@ -257,7 +260,7 @@ function SelectedHTML(selected){
 			}
 		}
 	}
-
+	
 	function normalize(selected){
 		var items = [];
 		if(exists(selected)){
