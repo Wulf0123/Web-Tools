@@ -10,7 +10,12 @@ function _(value){
 	else if(value === "body"){
 		return new SelectedHTML(document.body);
 	}
-	return new SelectedHTML(document.body.querySelectorAll(value));
+	if(typeof value === "string"){
+		return new SelectedHTML(document.body.querySelectorAll(value));
+	}
+	else{
+		return new SelectedHTML(value);
+	}
 }
 
 function SelectedHTML(selected){
@@ -46,6 +51,7 @@ function SelectedHTML(selected){
 				case("overflow"):
 				case("overflow-y"):
 				case("top"):
+				case("left"):
 				case("placeholder"):
 				case("border-color"):
 					return this.attribute(target);
@@ -84,6 +90,7 @@ function SelectedHTML(selected){
 				case("overflow"):
 				case("overflow-y"):
 				case("top"):
+				case("left"):
 				case("scroll-top"):
 				case("scroll-view"):
 				case("placeholder"):
@@ -207,7 +214,7 @@ function SelectedHTML(selected){
 	this.attribute = function(target, value){
 		if(exists(target)){
 			switch(target){
-			case("title"): 
+				case("title"): return title(value);
 				case("disabled"): return disabled(value);
 				case("height"): return height(value);
 				case("width"): return width(value);
@@ -220,7 +227,8 @@ function SelectedHTML(selected){
 				case("overflow"): return overflow(value);
 				case("overflow-y"): return overflow(value, "y");
 				case("overflow-x"): return overflow(value, "x");
-				case("top"): return top(value);
+				case("top"): return position(value, "top");
+				case("left"): return position(value, "left");
 				case "scroll-top": object.scrollTop = 0; break;
 				case "scroll-view": object.scrollIntoView(true); break;
 				case("placeholder"): return placeholder(value);case("border-color"): return borderColor(value);
@@ -481,18 +489,31 @@ function SelectedHTML(selected){
 		return overflow;
 	}
 	
-	function top(value){
-		var top = [];
-		for(var i = 0; i < collection.length; i++){
-			if(exists(value)){
-				collection[i].style.top = value + "px";
-			}
-			var rendered =(getComputedStyle(collection[i], null).top);
-			if(!top.contains(rendered)){
-				top.push(rendered);
+	function position(value, type){
+		var position = [];
+		if(type === "top"){
+			for(var i = 0; i < collection.length; i++){
+				if(exists(value)){
+					collection[i].style.top = value + "px";
+				}
+				var rendered =(getComputedStyle(collection[i], null).top);
+				if(!position.contains(rendered)){
+					position.push(rendered);
+				}
 			}
 		}
-		return top;
+		else if(type === "left"){
+			for(var i = 0; i < collection.length; i++){
+				if(exists(value)){
+					collection[i].style.left = value + "px";
+				}
+				var rendered =(getComputedStyle(collection[i], null).left);
+				if(!position.contains(rendered)){
+					position.push(rendered);
+				}
+			}
+		}
+		return position;
 	}
 	
 	function placeholder(value){
