@@ -1,4 +1,4 @@
-require(["util"]);
+//require(["util"]);
 
 function Ajax(url){
 	var URL = url;

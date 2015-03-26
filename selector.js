@@ -1,4 +1,4 @@
-require(["util"]);
+//require(["util"]);
 
 function _(value){
 	if(value === "window"){
@@ -21,7 +21,6 @@ function _(value){
 function SelectedHTML(selected){
 	var collection = normalize(selected);
 	this.length = collection.length;
-	this.tmp = collection;
 	
 	this.get = function(target){
 		if(exists(target)){
@@ -205,8 +204,10 @@ function SelectedHTML(selected){
 		var children = [];
 		for(var i = 0; i < collection.length; i++){
 			var tmpChildren = collection[i].children;
-			for(var j = 0; j < tmpChildren.length; j++){
-				children.push(tmpChildren[j]);
+			if(exists(tmpChildren)){
+				for(var j = 0; j < tmpChildren.length; j++){
+					children.push(tmpChildren[j]);
+				}
 			}
 		}
 		return children;
@@ -276,6 +277,14 @@ function SelectedHTML(selected){
 				for(var i = 0; i < selected.length; i++){
 					items[i] = selected[i];
 				}
+			}
+			else if(selected instanceof NodeList){
+				for(var i = 0; i < NodeList.length; i++){
+					items[i] = NodeList[i];
+				}
+			}
+			else if(selected instanceof MouseEvent){
+				items[0] = selected.target;
 			}
 			else{
 				items[0] = selected;
