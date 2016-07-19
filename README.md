@@ -1,8 +1,6 @@
 Web-Tools
 =========
 
-TESTING TEST TESTER
-
 Collection of javascript that I can use for web projects
 TO-DO:
  - Create Selector class to make selection of elements easier. X
